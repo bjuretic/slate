@@ -1,0 +1,145 @@
+object:
+  example: >
+    {
+        "uid": "call_Agtb6i6RiEM9tp",
+        "type": "callback",
+        "url": "https://my.server.com/callback",
+        "live": true,
+        "created": 1423985910
+    }
+  attributes:
+    - uid:
+        type: string
+        description: UID of the object.
+    - type:
+        type: string
+        description: A `callback` constant.
+    - created:
+        type: timestamp
+        description: Object creation timestamp
+    - url:
+        type: string
+        description: URL of the callback handler.
+    - live:
+        type: boolean
+        description: Does this callback handle live or test events?
+
+  create:
+    endpoint: https://api.pencepay.com/v1/callback
+    method: POST
+    parameters:
+      - url:
+          type: boolean
+          required: true
+          description: URL of the callback handler on your server.
+      - live:
+          type: boolean
+          required: true
+          description: Should this callback handle live or test events?
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/callback \
+            -u public_key:secret_key \
+            -d url="https://my.server.com/callback" \
+            -d live="true"
+    example_response:
+      json: >
+        {
+            "uid": "call_Agtb6i6RiEM9tp",
+            "type": "callback",
+            "url": "https://my.server.com/callback",
+            "live": true,
+            "created": 1423985910
+        }
+
+  update:
+    endpoint: https://api.pencepay.com/v1/callback/{CALLBACK_UID}
+    method: POST
+    path_parameters:
+      - CALLBACK_UID:
+          description: UID of the callback to update
+          required: true
+    parameters:
+      - url:
+          type: boolean
+          description: URL of the callback handler on your server.
+      - live:
+          type: boolean
+          description: Should this callback handle live or test events?
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/callback/call_Agtb6i6RiEM9tp \
+            -u public_key:secret_key \
+            -d url="https://my.server.com/callback2"
+    example_response:
+      json: >
+        {
+            "uid": "call_Agtb6i6RiEM9tp",
+            "type": "callback",
+            "url": "https://my.server.com/callback2",
+            "live": true,
+            "created": 1423985910
+        }
+
+  single:
+    endpoint: https://api.pencepay.com/v1/callback/{CALLBACK_UID}
+    method: GET
+    path_parameters:
+      - CALLBACK_UID:
+          description: UID of the callback to retrieve
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/callback/call_Agtb6i6RiEM9tp \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "uid": "call_Agtb6i6RiEM9tp",
+            "type": "callback",
+            "url": "https://my.server.com/callback2",
+            "live": true,
+            "created": 1423985910
+        }
+
+  delete:
+    endpoint: https://api.pencepay.com/v1/callback/{CALLBACK_UID}
+    method: DELETE
+    path_parameters:
+      - CALLBACK_UID:
+          description: UID of the callback to delete
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/callback/call_Agtb6i6RiEM9tp \
+            -u public_key:secret_key \
+            -X DELETE
+    example_response:
+      json: >
+        {
+            "deletedUid": "call_Agtb6i6RiEM9tp",
+            "deleted": true
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/callbacks
+    method: GET
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/callbacks?limit=5 \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "type": "list",
+            "totalCount": 1,
+            "hasPrevious": false,
+            "hasNext": false,
+            "items": [{
+                "uid": "call_Agtb6i6RiEM9tp",
+                "type": "callback",
+                "url": "https://my.server.com/callback",
+                "live": true,
+                "created": 1423985910
+            }]
+        }

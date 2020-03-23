@@ -320,6 +320,14 @@ html, body {
   position: relative;
   z-index: 30;
 
+  a, a:visited {
+    color: $main-link;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
   &:after {
     content: '';
     display: block;
@@ -612,4 +620,57 @@ html, body {
 
 .highlight, .highlight .w {
   background-color: $code-bg;
+}
+
+// OBJECT AND REQUEST DATA
+
+h3.parameters {
+  text-transform: uppercase;
+  font-weight: lighter;
+  color: #939393;
+  font-size: 0.9em;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f3f7fa;
+}
+
+.object-attributes {
+  tr td {
+    border-bottom: 1px solid #f3f7fa;
+  }
+  .property_name {
+    text-align: right;
+    width: 180px;
+    padding-right: 20px;
+    span.name {
+      display: block;
+      font-weight: normal;
+      color: #292e31;
+    }
+    span.optional, span.type {
+      font-weight: lighter;
+      color: #939393;
+    }
+    span.required {
+      font-weight: lighter;
+      color: #ff8700;
+      // font-size: 0.8em;
+    }
+  }
+}
+
+span.endpoint_method {
+  margin-right: 6px;
+  background-color: #0099e5;
+  font-weight: bold;
+  color: #fff;
+  padding: 4px 4px;
+  border-radius: 2px;
+  text-shadow: none !important;
+}
+span.endpoint_url a, span.endpoint_url a:visited {
+  color: #4c555a;
+}
+
+span.endpoint_method {
+  font-weight: bold;
 }

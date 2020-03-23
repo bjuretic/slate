@@ -1,0 +1,228 @@
+object:
+  example: >
+    {
+        "uid": "ba_reH7BiByKTXgBH",
+        "type": "bankAccount",
+        "customerUid": "cust_rLu7LcgR9ieGdu",
+        "accountHolder": "John Smith",
+        "accountNumber": null,
+        "iban": "HR5320000000000000000",
+        "bic": "OBBVHR1X",
+        "countryCode": "HR",
+        "customData": {},
+        "created": 1423903398,
+        "default": true
+    }
+  attributes:
+    - uid:
+        type: string
+        description: Unique ID of the BankAccount in our system
+    - type:
+        type: string
+        description: Constant `bankAccount`
+    - created:
+        type: timestamp
+        description: Object creation timestamp
+    - customerUid:
+        type: string
+        description: UID of the Customer object to whom this Card is attached.
+    - accountHolder:
+        type: string
+        description: Name of the account holder.
+    - accountNumber:
+        type: string
+        description: Number of the account.
+    - iban:
+        type: string
+        description: IBAN of the account, if available.
+    - bic:
+        type: string
+        description: BIC (SWIFT code) of the bank providing the bank account.
+    - countryCode:
+        type: string
+        description: An [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) alpha-2 code of the country where the bank account is held, e.g. GB.
+    - default:
+        type: boolean
+        description: Set if the bank account is the default one for the Customer.
+    - customData:
+        type: map
+        description: Map (Dictionary) of the custom data key-value pairs.
+
+  create:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/bank_account
+    method: POST
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+    parameters:
+    - accountHolder:
+        type: string
+        description: Name of the account holder.
+    - accountNumber:
+        type: string
+        description: Number of the account.
+    - iban:
+        type: string
+        description: IBAN of the account, if available.
+    - bic:
+        type: string
+        description: BIC (SWIFT code) of the bank providing the bank account.
+    - countryCode:
+        type: string
+        description: An [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) alpha-2 code of the country where the bank account is held, e.g. GB.
+    - customData:
+        type: map
+        description: Map (Dictionary) of the custom data key-value pairs.
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/bank_account \
+           -u public_key:secret_key \
+           -d accountHolder="John Smith" \
+           -d iban="HR5320000000000000000" \
+           -d bic="OBBVHR1X" \
+           -d countryCode="HR"
+    example_response:
+      json: >
+        {
+            "uid": "ba_reH7BiByKTXgBH",
+            "type": "bankAccount",
+            "customerUid": "cust_rLu7LcgR9ieGdu",
+            "accountHolder": "John Smith",
+            "accountNumber": null,
+            "iban": "HR5320000000000000000",
+            "bic": "OBBVHR1X",
+            "countryCode": "HR",
+            "customData": {},
+            "created": 1423903398,
+            "default": true
+        }
+
+  update:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/bank_account/{ACCOUNT_UID}
+    method: POST
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+      - ACCOUNT_UID:
+          description: UID of the bank account to update
+          required: true
+    parameters:
+    - accountHolder:
+        type: string
+        description: Name of the account holder.
+    - accountNumber:
+        type: string
+        description: Number of the account.
+    - iban:
+        type: string
+        description: IBAN of the account, if available.
+    - customData:
+        type: map
+        description: Map (Dictionary) of the custom data key-value pairs.
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/bank_account/ba_reH7BiByKTXgBH \
+           -u public_key:secret_key \
+           -d accountHolder="Johnny Smith"
+    example_response:
+      json: >
+        {
+            "uid": "ba_reH7BiByKTXgBH",
+            "type": "bankAccount",
+            "customerUid": "cust_rLu7LcgR9ieGdu",
+            "accountHolder": "Johnny Smith",
+            "accountNumber": null,
+            "iban": "HR5320000000000000000",
+            "bic": "OBBVHR1X",
+            "countryCode": "HR",
+            "customData": {},
+            "created": 1423903398,
+            "default": true
+        }
+
+  single:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/bank_account/{ACCOUNT_UID}
+    method: GET
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+      - ACCOUNT_UID:
+          description: UID of the bank account
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/bank_account/ba_Lzsk9cMqBiEXGs \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "uid": "ba_reH7BiByKTXgBH",
+            "type": "bankAccount",
+            "customerUid": "cust_rLu7LcgR9ieGdu",
+            "accountHolder": "Johnny Smith",
+            "accountNumber": null,
+            "iban": "HR5320000000000000000",
+            "bic": "OBBVHR1X",
+            "countryCode": "HR",
+            "customData": {},
+            "created": 1423903398,
+            "default": true
+        }
+
+  delete:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/bank_account/{ACCOUNT_UID}
+    method: DELETE
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+      - ACCOUNT_UID:
+          description: UID of the bank account
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/card/card_yeUGxiyjrT5KEU \
+            -u public_key:secret_key \
+            -X DELETE
+    example_response:
+      json: >
+        {
+            "deletedUid": "ba_Lzsk9cMqBiEXGs",
+            "deleted": true
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/bank_accounts
+    method: GET
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/bank_accounts?limit=5 \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "type": "list",
+            "totalCount": 2,
+            "hasPrevious": false,
+            "hasNext": false,
+            "items": [{
+                "uid": "ba_nLCjATog6cXGLC",
+                "type": "bankAccount",
+                "customerUid": "cust_rLu7LcgR9ieGdu",
+                "accountHolder": "John Smith",
+                "accountNumber": null,
+                "iban": "HR5320000000000000000",
+                "bic": "OBBVHR1X",
+                "countryCode": "HR",
+                "customData": {},
+                "created": 1423904976,
+                "default": false
+            }, {...}]
+        }

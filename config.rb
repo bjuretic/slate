@@ -1,3 +1,5 @@
+require './lib/custom_markdown.rb'
+
 # Unique header generation
 require './lib/unique_head.rb'
 
@@ -12,7 +14,7 @@ set :markdown,
     tables: true,
     with_toc_data: true,
     no_intra_emphasis: true,
-    renderer: UniqueHeadCounter
+    renderer: CustomMarkdown
 
 # Assets
 set :css_dir, 'stylesheets'

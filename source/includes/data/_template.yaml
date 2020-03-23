@@ -1,0 +1,21 @@
+object:
+  example: >
+
+  attributes:
+    - uid:
+        type: string
+        description:
+
+  create:
+    endpoint: https://api.pencepay.com/v1/
+    method: POST
+    path_parameters:
+    query_parameters:
+    parameters:
+      - name:
+          type: string
+          description:
+    example_request:
+      shell: >
+    example_response:
+      json: >

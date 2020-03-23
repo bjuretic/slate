@@ -1,0 +1,156 @@
+object:
+  example: >
+    {
+      "uid" : "dsp_jgCebT4MToxgCB",
+      "type" : "dispute",
+      "transactionUid" : "txn_bfKxc9ekybc67X",
+      "transactionId" : 600414,
+      "live" : null,
+      "disputeType" : "CHARGEBACK",
+      "reason" : "NOT_RECOGNIZED",
+      "message" : "Customer does not recognize the charge",
+      "status" : "OPEN",
+      "amount" : 10.00,
+      "currencyCode" : "EUR",
+      "caseId" : "A623B58",
+      "disputeDate" : 1470096000,
+      "dueDate" : 1470960000,
+      "moreInfo" : null,
+      "created" : 1470837296
+    }
+  attributes:
+    - uid:
+        type: string
+        description: UID of the object.
+    - type:
+        type: string
+        description: Constant `dispute`.
+    - created:
+        type: timestamp
+        description: Object creation timestamp.
+    - transactionUid:
+        type: string
+        description: The parent [Transaction](#Transaction), to which this `Dispute` is related.
+    - transactionId:
+        type: integer
+        description: Human-readable ID of the parent `Transaction`.
+    - live:
+        type: boolean
+        description: Describes a Live or Test transaction status.
+    - disputeType:
+        type: enum
+        object: DisputeType
+        description: Type of the dispute, e.g. CHARGEBACK.
+    - reason:
+        type: enum
+        object: DisputeReason
+        description: Reason type of the dispute, e.g. FRAUD.
+    - status:
+        type: string
+        description: Current status of the dispute, e.g. OPEN, LOST, WON.
+    - message:
+        type: string
+        description: Human-readable message with information about the dispute reason.
+    - amount:
+        type: decimal
+        description: Disputed amount of the customer payments.
+    - currencyCode:
+        type: decimal
+        description: >
+          A three-letter [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code (e.g. EUR).
+    - caseId:
+        type: string
+        description: Dispute ID in the acquirer's system.
+    - disputeDate:
+        type: timestamp
+        description: Timestamp (date-part only is relevant) of when the dispute was raised by the customer.
+    - dueDate:
+        type: timestamp
+        description: Timestamp (date-part only is relevant) of the final date until which you have to provide your evidence about the dispute.
+    - moreInfo:
+        type: string
+        description: Any additional human-readable data about the dispute.
+
+  single:
+    endpoint: https://api.pencepay.com/v1/dispute/{DISPUTE_UID}
+    method: GET
+    path_parameters:
+      - DISPUTE_UID:
+          description: UID of the dispute to retrieve
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/dispute/dsp_jgCebT4MToxgCB \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+          "uid" : "dsp_jgCebT4MToxgCB",
+          "type" : "dispute",
+          "transactionUid" : "txn_bfKxc9ekybc67X",
+          "transactionId" : 600414,
+          "live" : null,
+          "disputeType" : "CHARGEBACK",
+          "reason" : "NOT_RECOGNIZED",
+          "message" : "Customer does not recognize the charge",
+          "status" : "OPEN",
+          "amount" : 10.00,
+          "currencyCode" : "EUR",
+          "caseId" : "A623B58",
+          "disputeDate" : 1470096000,
+          "dueDate" : 1470960000,
+          "moreInfo" : null,
+          "created" : 1470837296
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/disputes
+    method: GET
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/disputes \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+          "type" : "list",
+          "totalCount" : 2,
+          "hasPrevious" : false,
+          "hasNext" : false,
+          "items" : [ {
+            "uid" : "dsp_e5uErcAocKpLuR",
+            "type" : "dispute",
+            "transactionUid" : "txn_bfKxc9ekybc67X",
+            "transactionId" : 600414,
+            "live" : null,
+            "disputeType" : "REVERSAL",
+            "reason" : "GENERIC",
+            "message" : "General response provided by issuer",
+            "status" : "OPEN",
+            "amount" : 10.00,
+            "currencyCode" : "EUR",
+            "caseId" : null,
+            "disputeDate" : 1470096000,
+            "dueDate" : 1470960000,
+            "moreInfo" : null,
+            "created" : 1470837296
+          }, {
+            "uid" : "dsp_jgCebT4MToxgCB",
+            "type" : "dispute",
+            "transactionUid" : "txn_bfKxc9ekybc67X",
+            "transactionId" : 600414,
+            "live" : null,
+            "disputeType" : "CHARGEBACK",
+            "reason" : "NOT_RECOGNIZED",
+            "message" : "General response provided by issuer",
+            "status" : "OPEN",
+            "amount" : 10.00,
+            "currencyCode" : "EUR",
+            "caseId" : null,
+            "disputeDate" : 1470096000,
+            "dueDate" : 1470960000,
+            "moreInfo" : null,
+            "created" : 1470837296
+          } ]
+        }
+

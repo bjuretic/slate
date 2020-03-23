@@ -1,239 +1,205 @@
 ---
-title: API Reference
+title: Pencepay API reference
 
-language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+language_tabs:
+  - json
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='https://pencepay.com/payments'>&gt; Sign up for Pencepay account</a>
+  - <a href='https://pencepay.com/about/support'>&gt; Contact Support</a>
 
 includes:
-  - errors
+  - customers
+  - addresses
+  - cards
+  - bank_accounts
+  - transactions
+  - disputes
+  - tags
+  - paycodes
+  - events
+  - logs
+  - callbacks
+  - changelog
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
-
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
-
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+```
+ _ __   ___ _ __   ___ ___ _ __   __ _ _   _
+| '_ \ / _ \ '_ \ / __/ _ \ '_ \ / _` | | | |
+| |_) |  __/ | | | (_|  __/ |_) | (_| | |_| |
+| .__/ \___|_| |_|\___\___| .__/ \__,_|\__, |
+|_|                       |_|          |___/
 ```
 
-```python
-import kittn
+Welcome to Pencepay API reference documentation! This documentation is provided to make it easy for developers to lookup Pencepay gateway objects and parameters, and to provide insight into our low-level API.
 
-api = kittn.authorize('meowmeowmeow')
-```
+Although the RESTful API presented here can be used directly, the recommended method for integrating with Pencepay is to use one of our supported libraries. Still, this documentation will give additional insight to the developer, and it also makes it possible to develop libraries not supported by Pencepay directly.
+
+This documentation contains information on **all features** supported by the gateway, even if they are not implemented in a certain language-specific library.
+
+## Libraries
+
+The best method of integration is to use our libraries:
+
+  - [Pencepay PHP Library](https://pencepay.com/docs/php/basics/setup.html)
+  - [Pencepay Java Library](https://pencepay.com/docs/java/basics/setup.html)
+
+
+### Want to help?
+
+Do you wish to develop a library for Pencepay for a programming language not listed above? <a href='https://pencepay.com/about/pencepay.html'>Drop us an email</a>, and we will gladly give you full support and credit for your work.
+
+## Authentication
+
+Authentication to Pencepay API is done using the [HTTP Basic Auth](http://en.wikipedia.org/wiki/Basic_access_authentication). When authenticating, use your Public Key as a username, and your Secret Key as password.
+
+After you signup for Pencepay account (which is free of charge), you can access your Keys in the [Administration tool](https://secure.pencepay.com/admin), under Setup - Users - (your user) - Keys.
+
+All API endpoints must be accessed over the HTTPS, otherwise they will fail.
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+$ curl https://api.pencepay.com/v1/{...} -u "public_key:secret_key"
 ```
 
-```javascript
-const kittn = require('kittn');
+> Make sure to replace `public_key` and `secret_key` with your public and secret API keys.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+## Errors
 
-> Make sure to replace `meowmeowmeow` with your API key.
+`Error` is a response returned by the gateway when any failure occurs. 
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+[[object#Error]]
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+### HTTP codes
 
-`Authorization: meowmeowmeow`
+The API will return a HTTP status code depending on the type of `Error`.
+
+Status code  | Description
+------------ | ------------
+400          | Bad Request -- Some of the parameters sent in the request are invalid or missing. JSON response contains further information about the exact problem.
+401          | Authentication problem -- Your API public or secret key is wrong
+403          | Authorization refused -- You don't have permission to view the requested object, or to perform the requested action.
+404          | Not Found -- Object with the given UID cannot be found (or you don't have permission for looking it up).
+405          | Method Not Allowed -- You tried to access an invalid method
+406          | Not Acceptable -- You requested a format that is not valid JSON
+429          | Too Many Requests -- You're calling API too many times in the given interval. Try again later.
+500          | Internal Server Error -- We had a problem with our server. Try again later.
+503          | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
+
+
+## Custom data
+
+When integrating your application with the gateway, you will sometimes find it useful to store your database IDs or other identifiers on the gateway, together with the created gateway objects.
+
+Later when you retrieve the thus enriched objects, you will receive your custom data back with the object, which can be very useful in practice.
+
+Use of `customData` property is enabled on most of the top-level gateway objects, like Customer, Transaction, CreditCard, Address etc.
+
+To use `customData` use the HTTP "map" property format, e.g. `customData[myProperty]=myValue`.
+
+If you wish to update `customData` keys or values, you need to provide all (updated) keys and values in the update call (if gateway object supports updating).
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Only simple, single-level, key-value data can be stored in this property.
 </aside>
 
-# Kittens
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+```bash
+$ curl https://api.pencepay.com/v1/customer \
+   -u public_key:secret_key \
+   -d description="Test customer" \
+   -d customData[reference]="6715123" \
+   -d customData[customer_id]="5"
 ```
 
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> Example of object with customData
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "uid": "cust_zEUBdibR5T5X6U",
+    "type": "customer",
+    "name": null,
+    "firstName": null,
+    "lastName": null,
+    "email": null,
+    "phone": null,
+    "mobile": null,
+    "description": "Test customer",
+    "addresses": [],
+    "creditCards": [],
+    "bankAccounts": [],
+    "defaultBillingAddress": null,
+    "defaultCreditCard": null,
+    "defaultBankAccount": null,
+    "customData": {
+        "customer_id": "5",
+        "reference": "6715123"
+    },
+    "created": 1424020139
 }
 ```
 
-This endpoint retrieves a specific kitten.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+## Pagination
 
-### HTTP Request
+To browse through the objects returned by using search, we use cursor-based pagination.
 
-`GET http://example.com/kittens/<ID>`
+Cursor-based pagination is used (instead of classical page/offset pagination used in many applications), because of the real-time nature of the data handled by the gateway.
 
-### URL Parameters
+Because records (e.g. transactions) keep being added in real-time, if page/offset pagination was used there would be a chance that you miss some data while iterating.
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+To retrieve objects before the given UID, use `before` property set to that UID; likewise use `after` set to the UID of the object to retrieve objects after the given object.
 
-## Delete a Specific Kitten
+`limit` is used to limit the amount of objects returned, but we will never return more than 100 objects.
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
+### List object
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+    "type": "list",
+    "totalCount": 5,
+    "hasPrevious": false,
+    "hasNext": false,
+    "items": [...]
+}
+```
+List object is returned when search method is used for various gateway objects, and it contains helper field for easier navigation through all objects available in the gateway.
+
+Property        | Type   |  Description
+--------------- |------- |------------------------------
+`type`          | string | 'list' constant
+`totalCount`    | int    | Total number of objects of this type in the gateway
+`hasPrevious`   | boolean| Are there any more objects before the first object in the `items`?
+`hasNext`       | boolean| Are there any more objects after the last object in the `items`?
+`items`         | list   | Requested objects
+
+
+### Query parameters
+
+```shell
+$ curl https://api.pencepay.com/v1/customers?after=cust_6GUKEcnRqipj9U11&limit=20 \
+    -u public_key:secret_key
+```
+
+> Example List response
+
+```json
+{
+    "type": "list",
+    "totalCount": 20,
+    "hasPrevious": false,
+    "hasNext": true,
+    "items": [...]
 }
 ```
 
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+Parameter        | Required   |  Description
+---------------- |----------- |------------------------------
+`limit`          | false      | Maximum number of items returned, default is 100 objects
+`before`         | false      | UID of the object before which you wish items to be returned
+`after`          | false      | UID of the object after which you wish items to be returned
 

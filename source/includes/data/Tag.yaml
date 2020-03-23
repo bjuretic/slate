@@ -1,0 +1,150 @@
+object:
+  example: >
+    {
+        "uid": "tag_jgCebT4MToxgCB",
+        "type": "tag",
+        "name": "Another project",
+        "code": "TAG2",
+        "created": 1412796181
+    }
+  attributes:
+    - uid:
+        type: string
+        description: UID of this object
+    - type:
+        type: string
+        description: Constant `tag`.
+    - created:
+        type: timestamp
+        description: Object creation timestamp.
+    - code:
+        type: string
+        description: A key (code) for the key-value pair which defines a tag. This tag `code` is used when creating a transaction to tag it.
+    - name:
+        type: string
+        description: Tag name used in the UI, reports etc.
+
+  create:
+    endpoint: https://api.pencepay.com/v1/tag
+    method: POST
+    parameters:
+      - code:
+          type: string
+          required: true
+          description: Tag code used in your code, e.g. TAG1.
+      - name:
+          type: string
+          required: true
+          description: Tag name used in the UI, reports etc.
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/tag \
+            -u public_key:secret_key \
+            -d name="REN" \
+            -d code="Villa Rentals"
+    example_response:
+      json: >
+        {
+            "uid": "tag_X8I6pT7oT7nxIA",
+            "type": "tag",
+            "name": "Villa Rentals",
+            "code": "REN",
+            "created": 1423931788
+        }
+
+  update:
+    endpoint: https://api.pencepay.com/v1/tag/{TAG_UID}
+    method: POST
+    path_parameters:
+      - TAG_UID:
+          description: UID of the tag to update
+          required: true
+    parameters:
+      - name:
+          type: string
+          required: true
+          description: Tag name used in the UI, reports etc.
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/tag/tag_X8I6pT7oT7nxIA \
+            -u public_key:secret_key \
+            -d name="Travel Department"
+    example_response:
+      json: >
+        {
+            "uid": "tag_X8I6pT7oT7nxIA",
+            "type": "tag",
+            "name": "Travel Department",
+            "code": "REN",
+            "created": 1423931788
+        }
+
+  single:
+    endpoint: https://api.pencepay.com/v1/tag/{TAG_UID}
+    method: GET
+    path_parameters:
+      - TAG_UID:
+          description: UID of the tag to retrieve
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/tag_X8I6pT7oT7nxIA \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "uid": "tag_X8I6pT7oT7nxIA",
+            "type": "tag",
+            "name": "Cakes",
+            "code": "COOK",
+            "created": 1423931788
+        }
+
+  delete:
+    endpoint: https://api.pencepay.com/v1/tag/{TAG_UID}
+    method: POST
+    path_parameters:
+      - TAG_UID:
+          description: UID of the tag to retrieve
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/tag/tag_X8I6pT7oT7nxIA \
+            -u public_key:secret_key \
+            -X DELETE
+    example_response:
+      json: >
+        {
+            "deletedUid": "tag_X8I6pT7oT7nxIA",
+            "deleted": true
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/tags
+    method: GET
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/tags?limit=5 \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "type": "list",
+            "totalCount": 2,
+            "hasPrevious": false,
+            "hasNext": false,
+            "items": [{
+                "uid": "tag_jgCebT4MToxgCB",
+                "type": "tag",
+                "name": "Another project",
+                "code": "TAG2",
+                "created": 1412796181
+            }, {
+                "uid": "tag_8rCKriXLiBBAC9",
+                "type": "tag",
+                "name": "Project 1",
+                "code": "TAG1",
+                "created": 1412796168
+            }]
+        }
+

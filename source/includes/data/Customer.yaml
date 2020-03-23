@@ -1,0 +1,347 @@
+object:
+  example: >
+    {
+        "uid": "cust_6GUKEcnRqipj9U",
+        "type": "customer",
+        "name": null,
+        "firstName": "John",
+        "lastName": "Hancock",
+        "email": null,
+        "phone": "1112223334",
+        "mobile": null,
+        "description": "some description2",
+        "addresses": [{
+            "uid": "addr_X8I6pi5jLT5nxI",
+            "type": "address",
+            "customerUid": "cust_6GUKEcnRqipj9U",
+            "company": null,
+            "firstName": null,
+            "lastName": null,
+            "addressLine1": "Street 123",
+            "addressLine2": null,
+            "city": "zagreb",
+            "postalCode": "10000",
+            "locality": null,
+            "region": null,
+            "countryCode": "HR",
+            "customData": {},
+            "created": 1417693085
+        }],
+        "creditCards": [{
+            "uid": "card_8rCKriX5yTBBAC",
+            "type": "card",
+            "customerUid": "cust_6GUKEcnRqipj9U",
+            "cardholderName": "John Smith",
+            "brand": "VISA",
+            "imageUrl": "https://secure.pencepay.com/admin/assets/images/cards/VISA.gif",
+            "bin": "477588",
+            "issuerName": "THE GOVERNOR AND COMPANY OF THE BANK OF IRELAND",
+            "issuerCountry": "IE",
+            "last4": "0171",
+            "expiryMonth": 11,
+            "expiryYear": 2016,
+            "fingerprint": "cc05155bfacb9407b37f0f3fc2a0af273ff351593f680f256a9a1866da35cf0e",
+            "customData": {},
+            "created": 1418636141,
+            "default": true,
+            "expired": false,
+            "expiryDate": "11/2016",
+            "maskedNumber": "477588******0171"
+        }],
+        "bankAccounts": [{
+            "uid": "ba_reH7BiByKTXgBH",
+            "type": "bankAccount",
+            "customerUid": null,
+            "accountHolder": "holder name",
+            "accountNumber": "100000000",
+            "iban": "HR1233000003333",
+            "bic": "PBZGHR2X",
+            "countryCode": "HR",
+            "customData": {},
+            "created": 1423660875,
+            "default": false
+        }],
+        "defaultBillingAddress": "addr_X8I6pi5jLT5nxI",
+        "defaultCreditCard": "card_8rCKriX5yTBBAC",
+        "defaultBankAccount": "ba_reH7BiByKTXgBH",
+        "customData": {
+            "my": "value"
+        },
+        "created": 1417693085
+    }
+  attributes:
+    - uid:
+        type: string
+        description: Unique ID of the Customer in our system.
+    - type:
+        type: string
+        description: Constant `customer`.
+    - created:
+        type: timestamp
+        description: Object creation timestamp.
+    - company:
+        type: string
+        description: Name of the company, if the Customer record represents a business.
+    - name:
+        type: string
+        description: Full name, in case you do not have first name and last name separately in your system.
+    - firstName:
+        type: string
+        description: First name of the Customer.
+    - lastName:
+        type: string
+        description: Last name of the Customer.
+    - email:
+        type: string
+        description: Valid e-mail of the Customer.
+    - phone:
+        type: string
+        description: Phone number of the Customer.
+    - mobile:
+        type: string
+        description: Mobile number of the Customer.
+    - description:
+        type: string
+        description: A description/notice for this Customer.
+    - addresses:
+        type: object
+        object: Address
+        description: A list of [Address](#Address) objects saved for this Customer.
+    - creditCards:
+        type: object
+        object: CreditCard
+        description: A list of [CreditCard](#CreditCard) objects saved for this Customer.
+    - bankAccounts:
+        type: object
+        object: BankAccount
+        description: A list of [BankAccount](#BankAccount) objects saved for this Customer.
+    - customData:
+        type: map
+        description: Map (Dictionary) of the custom data key-value pairs.
+    - defaultBillingAddress:
+        type: uid
+        description: UID of the default Address object for this Customer
+    - defaultCreditCard:
+        type: uid
+        description: UID of the default CreditCard object for this Customer
+    - defaultBankAccount:
+        type: uid
+        description: UID of the default BankAccount object for this Customer
+
+  create:
+    endpoint: https://api.pencepay.com/v1/customer
+    method: POST
+    parameters:
+      - company:
+          type: string
+          description: Name of the company, if the Customer record represents a business.
+      - name:
+          type: string
+          description: Full name, in case you do not have first name and last name separately in your system.
+      - firstName:
+          type: string
+          description: First name of the Customer.
+      - lastName:
+          type: string
+          description: Last name of the Customer.
+      - email:
+          type: string
+          description: Valid e-mail of the Customer.
+      - phone:
+          type: string
+          description: Phone number of the Customer.
+      - mobile:
+          type: string
+          description: Mobile number of the Customer.
+      - description:
+          type: string
+          required: true
+          description: A description/notice for this Customer.
+      - customData:
+          type: map
+          description: Map of the custom data key-value pairs.
+      - creditCard:
+          type: object
+          object: CreditCard
+          description: A [CreditCard](#CreditCard) for this Customer. The newly created CreditCard object will also become default.
+      - billingAddress:
+          type: object
+          object: Address
+          description: An [Address](#Address) for this Customer. The newly created Address object will also become default billing address.
+      - bankAccount:
+          type: object
+          object: BankAccount
+          description: A [BankAccount](#BankAccount) for this Customer. The newly created BankAccount object will also become default.
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer \
+           -u public_key:secret_key \
+           -d firstName="John" \
+           -d lastName="Hancock" \
+           -d email="john@hancock.com" \
+           -d description="Test customer"
+    example_response:
+      json: >
+        {
+            "uid": "cust_jgCebc47aioxgC",
+            "type": "customer",
+            "name": null,
+            "firstName": "John",
+            "lastName": "Hancock",
+            "email": "john@hancock.com",
+            "phone": null,
+            "mobile": null,
+            "description": "Test customer",
+            "addresses": [],
+            "creditCards": [],
+            "bankAccounts": [],
+            "defaultBillingAddress": null,
+            "defaultCreditCard": null,
+            "defaultBankAccount": null,
+            "customData": {},
+            "created": 1423725926
+        }
+
+  update:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}
+    method: POST
+    parameters:
+      - company:
+          type: string
+          description: Name of the company, if the Customer record represents a business.
+      - name:
+          type: string
+          description: Full name, in case you do not have first name and last name separately in your system.
+      - firstName:
+          type: string
+          description: First name of the Customer.
+      - lastName:
+          type: string
+          description: Last name of the Customer.
+      - email:
+          type: string
+          description: Valid e-mail of the Customer.
+      - phone:
+          type: string
+          description: Phone number of the Customer.
+      - mobile:
+          type: string
+          description: Mobile number of the Customer.
+      - description:
+          type: string
+          required: true
+          description: A description/notice for this Customer.
+      - customData:
+          type: map
+          description: Map of the custom data key-value pairs. To update this property, you must provide **all** updated custom data (not just one change key-value pair).
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_yeUGxTyMyc5KEU \
+           -u public_key:secret_key \
+           -d firstName="Johnny" \
+           -d description="Test customer (updated)"
+    example_response:
+      json: >
+        {
+            "uid": "cust_yeUGxTyMyc5KEU",
+            "type": "customer",
+            "name": null,
+            "firstName": "Johnny",
+            "lastName": "Hancock",
+            "email": "john@hancock.com",
+            "phone": null,
+            "mobile": null,
+            "description": "Test customer (updated)",
+            "addresses": [],
+            "creditCards": [],
+            "bankAccounts": [],
+            "customData": {},
+            "created": 1423657788
+        }
+
+  single:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}
+    method: GET
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer to retrieve
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_yeUGxTyMyc5KEU \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "uid": "cust_yeUGxTyMyc5KEU",
+            "type": "customer",
+            "name": null,
+            "firstName": "John",
+            "lastName": "Hancock",
+            "email": "john@hancock.com",
+            "phone": null,
+            "mobile": null,
+            "description": "Test customer",
+            "addresses": [],
+            "creditCards": [],
+            "bankAccounts": [],
+            "customData": {},
+            "created": 1423657788
+        }
+
+  delete:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}
+    method: DELETE
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer to delete
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_ayC7eijRkT98bC \
+            -u public_key:secret_key \
+            -X DELETE
+    example_response:
+      json: >
+        {
+            "deletedUid": "cust_ayC7eijRkT98bC",
+            "deleted": true
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/customers
+    method: GET
+    query_parameters:
+      - limit:
+          description: Maximum number of items returned
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customers?limit=5 \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "type": "list",
+            "totalCount": 5,
+            "hasPrevious": false,
+            "hasNext": false,
+            "items": [{
+                "uid": "cust_yeUGxTyMyc5KEU",
+                "type": "customer",
+                "name": "name",
+                "firstName": "first name",
+                "lastName": "last name",
+                "email": null,
+                "phone": null,
+                "mobile": null,
+                "description": "test description",
+                "addresses": [],
+                "creditCards": [],
+                "bankAccounts": [],
+                "defaultBillingAddress": "addr_X8I6pi7jbT7nxI",
+                "defaultCreditCard": null,
+                "defaultBankAccount": null,
+                "customData": {},
+                "created": 1423657788
+            }, {...}]
+        }

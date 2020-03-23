@@ -1,0 +1,19 @@
+object:
+  example: >
+    {
+        "type": "error",
+        "code": 1001,
+        "message": "Invalid UID parameter",
+        "parameter": "customer"
+    }
+  attributes:
+    - type:
+        type: string
+        description: Constant `error`.
+    - code:
+        type: string
+        description: Error code
+    - message:
+        type: string
+        description: Error message
+

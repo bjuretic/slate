@@ -1,0 +1,107 @@
+object:
+  example: >
+    {
+        "uid": "log_bfXLckyxeTgxnf",
+        "type": "log",
+        "requestMethod": "POST",
+        "requestIpAddr": "127.0.0.1",
+        "requestPath": "/v1/customer/cust_rLu7LcgR9ieGdu",
+        "requestParameters": null,
+        "requestBody": "{\"name\":\"John\",\"firstName\":\"Johnny\",\"lastName\":\"Hancock\",\"phone\":\"\",\"mobile\":\"\",\"email\":\"\",\"description\":\"test Customer\",\"customData\":{}}",
+        "responseBody": "{\"uid\":\"cust_rLu7LcgR9ieGdu\",\"type\":\"customer\",\"name\":\"John\",\"firstName\":\"Johnny\",\"lastName\":\"Hancock\",\"description\":\"test Customer\",\"addresses\":[],\"creditCards\":[],\"bankAccounts\":[],\"defaultBillingAddress\":\"addr_dqCA5Td5Rcb85C\",\"defaultCreditCard\":\"card_yeUGxiyjrT5KEU\",\"defaultBankAccount\":\"ba_reH7BiByKTXgBH\",\"customData\":{},\"created\":1419242228}",
+        "responseCode": 200,
+        "created": 1424001068,
+        "relations": ["cust_rLu7LcgR9ieGdu", "addr_dqCA5Td5Rcb85C", "card_yeUGxiyjrT5KEU", "ba_reH7BiByKTXgBH"]
+    }
+  attributes:
+    - uid:
+        type: string
+        description: UID of the object.
+    - type:
+        type: string
+        description: A `log` constant.
+    - created:
+        type: timestamp
+        description: Object creation timestamp.
+    - requestMethod:
+        type: string
+        description: HTTP method, e.g. GET, POST, DELETE.
+    - requestIpAddr:
+        type: string
+        description: IP address of the API request.
+    - requestPath:
+        type: string
+        description: URL path used in the API call.
+    - requestParameters:
+        type: object
+        description: Parameters used in request (if used).
+    - requestBody:
+        type: string
+        description: Request data (HTTP body) used to invoke API call, in escaped JSON format.
+    - responseBody:
+        type: string
+        description: Response data (HTTP body), in escaped JSON format.
+    - responseCode:
+        type: integer
+        description: HTTP response code for this API call.
+    - relations:
+        type: array
+        description: List of UIDs of objects related with this log.
+
+  single:
+    endpoint: https://api.pencepay.com/v1/log/{LOG_UID}
+    method: GET
+    path_parameters:
+      - LOG_UID:
+          type: string
+          required: true
+          description: UID of the log to retrieve
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/log/log_bfXLckyxeTgxnf \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "uid": "log_bfXLckyxeTgxnf",
+            "type": "log",
+            "requestMethod": "POST",
+            "requestIpAddr": "127.0.0.1",
+            "requestPath": "/v1/customer/cust_rLu7LcgR9ieGdu",
+            "requestParameters": null,
+            "requestBody": "{\"name\":\"John\",\"firstName\":\"Johnny\",\"lastName\":\"Hancock\",\"phone\":\"\",\"mobile\":\"\",\"email\":\"\",\"description\":\"test Customer\",\"customData\":{}}",
+            "responseBody": "{\"uid\":\"cust_rLu7LcgR9ieGdu\",\"type\":\"customer\",\"name\":\"John\",\"firstName\":\"Johnny\",\"lastName\":\"Hancock\",\"description\":\"test Customer\",\"addresses\":[],\"creditCards\":[],\"bankAccounts\":[],\"defaultBillingAddress\":\"addr_dqCA5Td5Rcb85C\",\"defaultCreditCard\":\"card_yeUGxiyjrT5KEU\",\"defaultBankAccount\":\"ba_reH7BiByKTXgBH\",\"customData\":{},\"created\":1419242228}",
+            "responseCode": 200,
+            "created": 1424001068,
+            "relations": ["cust_rLu7LcgR9ieGdu", "addr_dqCA5Td5Rcb85C", "card_yeUGxiyjrT5KEU", "ba_reH7BiByKTXgBH"]
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/logs
+    method: GET
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/logs?limit=5 \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "type": "list",
+            "totalCount": 5,
+            "hasPrevious": false,
+            "hasNext": false,
+            "items": [{
+                "uid": "log_bfXLckyxeTgxnf",
+                "type": "log",
+                "requestMethod": "POST",
+                "requestIpAddr": "127.0.0.1",
+                "requestPath": "/v1/customer/cust_rLu7LcgR9ieGdu",
+                "requestParameters": null,
+                "requestBody": "{\"name\":\"John\",\"firstName\":\"Johnny\",\"lastName\":\"Hancock\",\"phone\":\"\",\"mobile\":\"\",\"email\":\"\",\"description\":\"test Customer\",\"customData\":{}}",
+                "responseBody": "{\"uid\":\"cust_rLu7LcgR9ieGdu\",\"type\":\"customer\",\"name\":\"John\",\"firstName\":\"Johnny\",\"lastName\":\"Hancock\",\"description\":\"test Customer\",\"addresses\":[],\"creditCards\":[],\"bankAccounts\":[],\"defaultBillingAddress\":\"addr_dqCA5Td5Rcb85C\",\"defaultCreditCard\":\"card_yeUGxiyjrT5KEU\",\"defaultBankAccount\":\"ba_reH7BiByKTXgBH\",\"customData\":{},\"created\":1419242228}",
+                "responseCode": 200,
+                "created": 1424001068,
+                "relations": ["cust_rLu7LcgR9ieGdu", "addr_dqCA5Td5Rcb85C", "card_yeUGxiyjrT5KEU", "ba_reH7BiByKTXgBH"]
+            }, {...}]
+        }
+

@@ -1,0 +1,137 @@
+object:
+  example: >
+    {
+        "uid": "evnt_Euo5izReRcRyxu",
+        "type": "event",
+        "eventType": "customer.updated",
+        "objectUid": "cust_rLu7LcgR9ieGdu",
+        "objectType": "customer",
+        "pending": 0,
+        "created": 1423945431,
+        "customer": {
+            "uid": "cust_rLu7LcgR9ieGdu",
+            "type": "customer",
+            "name": "John",
+            "firstName": "Johnny",
+            "lastName": "Hancock",
+            "email": null,
+            "phone": null,
+            "mobile": null,
+            "description": "test customer",
+            "addresses": [],
+            "creditCards": [],
+            "bankAccounts": [],
+            "defaultBillingAddress": "addr_dqCA5Td5Rcb85C",
+            "defaultCreditCard": "card_yeUGxiyjrT5KEU",
+            "defaultBankAccount": "ba_reH7BiByKTXgBH",
+            "customData": {},
+            "created": 1419242228
+        }
+    }
+  attributes:
+    - uid:
+        type: string
+        description: UID of the object
+    - type:
+        type: string
+        description: Constant `event`.
+    - created:
+        type: timestamp
+        description: Object creation timestamp.
+    - eventType:
+        type: string
+        description: Type of event, e.g. `customer.updated`
+    - objectUid:
+        type: string
+        description: UID of the object in the event payload
+    - objectType:
+        type: string
+        description: Type of the object in the event payload
+
+  single:
+    endpoint: https://api.pencepay.com/v1/event/{EVENT_UID}
+    method: GET
+    path_parameters:
+      - EVENT_UID:
+          type: string
+          required: true
+          description: UID of the event to retrieve
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/event/evnt_pSq9TKbK6iEjbS \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "uid": "evnt_pSq9TKbK6iEjbS",
+            "type": "event",
+            "eventType": "customer.updated",
+            "objectUid": "cust_rLu7LcgR9ieGdu",
+            "objectType": "customer",
+            "pending": 0,
+            "created": 1423822808,
+            "customer": {
+                "uid": "cust_rLu7LcgR9ieGdu",
+                "type": "customer",
+                "name": "John",
+                "firstName": "Johnny",
+                "lastName": "Hancock",
+                "email": null,
+                "phone": null,
+                "mobile": null,
+                "description": null,
+                "addresses": [],
+                "creditCards": [],
+                "bankAccounts": [],
+                "defaultBillingAddress": "addr_dqCA5Td5Rcb85C",
+                "defaultCreditCard": null,
+                "defaultBankAccount": null,
+                "customData": {},
+                "created": 1419242228
+            }
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/events
+    method: GET
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/events?limit=5 \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "type": "list",
+            "totalCount": 74,
+            "hasPrevious": false,
+            "hasNext": true,
+            "items": [{
+                "uid": "evnt_Euo5izReRcRyxu",
+                "type": "event",
+                "eventType": "customer.updated",
+                "objectUid": "cust_rLu7LcgR9ieGdu",
+                "objectType": "customer",
+                "pending": 0,
+                "created": 1423945431,
+                "customer": {
+                    "uid": "cust_rLu7LcgR9ieGdu",
+                    "type": "customer",
+                    "name": "John",
+                    "firstName": "Johnny",
+                    "lastName": "Hancock",
+                    "email": null,
+                    "phone": null,
+                    "mobile": null,
+                    "description": "test customer",
+                    "addresses": [],
+                    "creditCards": [],
+                    "bankAccounts": [],
+                    "defaultBillingAddress": "addr_dqCA5Td5Rcb85C",
+                    "defaultCreditCard": "card_yeUGxiyjrT5KEU",
+                    "defaultBankAccount": "ba_reH7BiByKTXgBH",
+                    "customData": {},
+                    "created": 1419242228
+                }
+            }, {...}]
+        }
+

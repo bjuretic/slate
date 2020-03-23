@@ -1,0 +1,305 @@
+object:
+  example: >
+    {
+        "uid": "card_8rCKriX5yTBBAC",
+        "type": "card",
+        "customerUid": "cust_6GUKEcnRqipj9U",
+        "cardholderName": "John Smith",
+        "brand": "VISA",
+        "imageUrl": "https://secure.pencepay.com/admin/assets/images/cards/VISA.gif",
+        "bin": "477588",
+        "issuerName": "THE GOVERNOR AND COMPANY OF THE BANK OF IRELAND",
+        "issuerCountry": "IE",
+        "last4": "0171",
+        "expiryMonth": 11,
+        "expiryYear": 2016,
+        "fingerprint": "cc05155bfacb9407b37f0f3fc2a0af273ff351593f680f256a9a1866da35cf0e",
+        "customData": {},
+        "created": 1418636141,
+        "default": true,
+        "expired": false,
+        "expiryDate": "11/2016",
+        "maskedNumber": "477588******0171"
+    }
+  attributes:
+    - uid:
+        type: string
+        description: UID of the object.
+    - type:
+        type: string
+        description: A `card` constant.
+    - created:
+        type: timestamp
+        description: Object creation timestamp
+    - customerUid:
+        type: string
+        description: UID of the parent [Customer](#Customer) object.
+    - cardholderName:
+        type: string
+        description: Full name of the card holder, e.g. John Hancock
+    - brand:
+        type: string
+        description: Card network brand.
+    - imageUrl:
+        type: string
+        description: URL of the small card brand image for display in UIs.
+    - bin:
+        type: string
+        description: BIN (Bank Identification Number) / IIN (Issuer Identification Number) - first 6 digits of the card number.
+    - issuerName:
+        type: string
+        description: (if available) Name of the card issuing organization.
+    - issuerName:
+        type: string
+        description: (if available) [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) alpha-2 code of the country of the issuing organization.
+    - last4:
+        type: string
+        description: Last 4 digits of the card number.
+    - expiryMonth:
+        type: string
+        description: Expiration month of the card, e.g. 02, 11
+    - expiryYear:
+        type: string
+        description: Expiration year of the card, e.g. 2025
+    - expiryDate:
+        type: string
+        description: Expiration date of the card in MM/YYYY format, e.g. 09/2025
+    - maskedNumber:
+        type: number
+        description: Masked card number, safe to display to the user and to store in your database.
+    - fingerprint:
+        type: string
+        description: Unique hash of this card in our system; useful for determining if a card is already stored in the gateway.
+    - default:
+        type: boolean
+        description: Set if the card is the default card for the Customer.
+    - expired:
+        type: boolean
+        description: Set if the card expiry date has passed.
+    - customData:
+        type: map
+        description: Map (Dictionary) of the custom data key-value pairs.
+
+  create:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/card
+    method: POST
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer to which you wish to add a new card
+          required: true
+    parameters:
+      - cardholderName:
+          type: string
+          required: true
+          description: Full name of the card holder, e.g. John Hancock
+      - number:
+          type: string
+          required: true
+          description: Plaintext or encrypted card number.
+      - expiryMonth:
+          type: string
+          required: true
+          description: Expiration month in the MM format (e.g. 01 for January).
+      - expiryYear:
+          type: string
+          required: true
+          description: Expiration year in 4-digit format, e.g. 2025
+      - cvv:
+          type: string
+          description: Three of four digit Card Verification Value (CVV, CVS, CVC etc.)
+      - settings.makeDefault:
+          type: boolean
+          description: Should this card become new default?
+      - settings.verifyCard:
+          type: boolean
+          description: Should the card be verified after it is created?
+      - customData:
+          type: map
+          description: Map (Dictionary) of the custom data key-value pairs.
+
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/card \
+           -u public_key:secret_key \
+           -d cardholderName="John Smith" \
+           -d number="4111111111111111" \
+           -d expiryMonth="12" \
+           -d expiryYear="2016" \
+           -d cvv="123" \
+           -d settings.makeDefault="true"
+    example_response:
+      json: >
+        {
+            "uid": "card_nLCjAco5aiXGLC",
+            "type": "card",
+            "customerUid": "cust_rLu7LcgR9ieGdu",
+            "cardholderName": "John Smith",
+            "brand": "VISA",
+            "imageUrl": "https://secure.pencepay.com/admin/assets/images/cards/VISA.gif",
+            "bin": "411111",
+            "issuerName": null,
+            "issuerCountry": null,
+            "last4": "1111",
+            "expiryMonth": 12,
+            "expiryYear": 2016,
+            "fingerprint": "0f22541092bfcbf75d8695661e2c090ecb2fa88200a0423d20dad18a71526868",
+            "customData": {},
+            "created": 1423828866,
+            "expired": false,
+            "default": true,
+            "expiryDate": "12/2016",
+            "maskedNumber": "411111******1111"
+        }
+
+  update:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/card/{CARD_UID}
+    method: POST
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+      - CARD_UID:
+          description: UID of the card to update
+          required: true
+    parameters:
+      - cardholderName:
+          type: string
+          description: Full name of the card holder, e.g. John Hancock
+      - expiryMonth:
+          type: string
+          description: Expiration month in the MM format (e.g. 01 for January).
+      - expiryYear:
+          type: string
+          description: Expiration year in 4-digit format, e.g. 2025
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/card/card_nLCjAco5aiXGLC \
+           -u public_key:secret_key \
+           -d cardholderName="Johnny Smith" \
+           -d expiryMonth="12" \
+           -d expiryYear="2018"
+    example_response:
+      json: >
+        {
+            "uid": "card_nLCjAco5aiXGLC",
+            "type": "card",
+            "customerUid": "cust_rLu7LcgR9ieGdu",
+            "cardholderName": "Johnny Smith",
+            "brand": "VISA",
+            "imageUrl": "https://secure.pencepay.com/admin/assets/images/cards/VISA.gif",
+            "bin": "411111",
+            "issuerName": null,
+            "issuerCountry": null,
+            "last4": "1111",
+            "expiryMonth": 12,
+            "expiryYear": 2016,
+            "fingerprint": "0f22541092bfcbf75d8695661e2c090ecb2fa88200a0423d20dad18a71526868",
+            "customData": {},
+            "created": 1423828866,
+            "expired": false,
+            "default": true,
+            "expiryDate": "12/2018",
+            "maskedNumber": "411111******1111"
+        }
+
+  single:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/card/{CARD_UID}
+    method: GET
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+      - CARD_UID:
+          description: UID of the card to retrieve
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/card/card_yeUGxiyjrT5KEU \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+          "maskedNumber": "411111******1111",
+          "expiryDate": "12/2018",
+          "default": true,
+          "issuerName": null,
+          "bin": "411111",
+          "imageUrl": "https://secure.pencepay.com/admin/assets/images/cards/VISA.gif",
+          "brand": "VISA",
+          "cardholderName": "John Smith",
+          "customerUid": "cust_rLu7LcgR9ieGdu",
+          "type": "card",
+          "uid": "card_yeUGxiyjrT5KEU",
+          "issuerCountry": null,
+          "last4": "1111",
+          "expiryMonth": 12,
+          "expiryYear": 2018,
+          "fingerprint": "3435937a8c6c258c8651556c980b1c0a690293daaea8d776d1773ed6fae39d77",
+          "customData": {},
+          "created": 1423829055,
+          "expired": false
+        }
+
+  delete:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/card/{CARD_UID}
+    method: DELETE
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+      - CARD_UID:
+          description: UID of the card to delete
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/card/card_yeUGxiyjrT5KEU \
+            -u public_key:secret_key \
+            -X DELETE
+    example_response:
+      json: >
+        {
+            "deletedUid": "card_yeUGxiyjrT5KEU",
+            "deleted": true
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/cards
+    method: GET
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/cards?limit=5 \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "type": "list",
+            "totalCount": 3,
+            "hasPrevious": false,
+            "hasNext": false,
+            "items": [{
+                "uid": "card_yeUGxiyjrT5KEU",
+                "type": "card",
+                "customerUid": "cust_rLu7LcgR9ieGdu",
+                "cardholderName": "John Smith",
+                "brand": "VISA",
+                "imageUrl": "https://secure.pencepay.com/admin/assets/images/cards/VISA.gif",
+                "bin": "411111",
+                "issuerName": null,
+                "issuerCountry": null,
+                "last4": "1111",
+                "expiryMonth": 12,
+                "expiryYear": 2016,
+                "fingerprint": "3435937a8c6c258c8651556c980b1c0a690293daaea8d776d1773ed6fae39d77",
+                "customData": {},
+                "created": 1423829055,
+                "default": true,
+                "expiryDate": "12/2016",
+                "expired": false,
+                "maskedNumber": "411111******1111"
+            }]
+        }
+

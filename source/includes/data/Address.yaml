@@ -1,0 +1,275 @@
+object:
+  example: >
+    {
+        "uid": "addr_X8I6pi5jLT5nxI",
+        "type": "address",
+        "customerUid": "cust_6GUKEcnRqipj9U",
+        "company": null,
+        "firstName": null,
+        "lastName": null,
+        "addressLine1": "Street 123",
+        "addressLine2": null,
+        "city": "zagreb",
+        "postalCode": "10000",
+        "locality": null,
+        "region": null,
+        "countryCode": "HR",
+        "customData": {},
+        "created": 1417693085
+    }
+  attributes:
+    - uid:
+        type: string
+        description: Unique ID of the Address in our system.
+    - type:
+        type: string
+        description: Constant `address`.
+    - created:
+        type: timestamp
+        description: Object creation timestamp.
+    - customerUid:
+        type: UID
+        description: UID of the Customer related to this address.
+    - company:
+        type: string
+        description: Name of the company.
+    - firstName:
+        type: string
+        description: First name of the Address.
+    - lastName:
+        type: string
+        description: Last name of the Address.
+    - addressLine1:
+        type: string
+        description: First line of the Address, e.g. street and house number.
+    - addressLine2:
+        type: string
+        description: Second line of the Address (if used).
+    - city:
+        type: string
+        description: City of the Address.
+    - postalCode:
+        type: string
+        description: Postal code of the Address.
+    - countryCode:
+        type: string
+        description: ISO 3166-1 alpha-2 code of the country, e.g. GB. [See all codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+    - customData:
+        type: map
+        description: Map (Dictionary) of the custom data key-value pairs.
+
+  create:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/address
+    method: POST
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer to which you wish to add a new address
+          required: true
+    parameters:
+    - company:
+        type: string
+        description: Name of the company.
+    - firstName:
+        type: string
+        description: First name of the Address.
+    - lastName:
+        type: string
+        description: Last name of the Address.
+    - addressLine1:
+        type: string
+        description: First line of the Address, e.g. street and house number.
+    - addressLine2:
+        type: string
+        description: Second line of the Address (if used).
+    - city:
+        type: string
+        description: City of the Address.
+    - postalCode:
+        type: string
+        description: Postal code of the Address.
+    - countryCode:
+        type: string
+        description: ISO 3166-1 alpha-2 code of the country, e.g. GB. [See all codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/address \
+           -u public_key:secret_key \
+           -d firstName="John" \
+           -d lastName="Smith" \
+           -d company="Export Business Ltd" \
+           -d addressLine1="Street 123" \
+           -d city="Zagreb" \
+           -d postalCode="10000" \
+           -d countryCode="HR"
+    example_response:
+      json: >
+        {
+            "uid": "addr_nBCLXcRyAier6C",
+            "type": "address",
+            "customerUid": "cust_rLu7LcgR9ieGdu",
+            "company": "Export Business Ltd",
+            "firstName": "John",
+            "lastName": "Smith",
+            "addressLine1": "Street 123",
+            "addressLine2": null,
+            "city": "Zagreb",
+            "postalCode": "10000",
+            "locality": null,
+            "region": null,
+            "countryCode": "HR",
+            "customData": {},
+            "created": 1423747829
+        }
+
+  update:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/address/{ADDRESS_UID}
+    method: POST
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+      - ADDRESS_UID:
+          description: UID of the address you wish to change
+          required: true
+    parameters:
+    - company:
+        type: string
+        description: Name of the company.
+    - firstName:
+        type: string
+        description: First name of the Address.
+    - lastName:
+        type: string
+        description: Last name of the Address.
+    - addressLine1:
+        type: string
+        description: First line of the Address, e.g. street and house number.
+    - addressLine2:
+        type: string
+        description: Second line of the Address (if used).
+    - city:
+        type: string
+        description: City of the Address.
+    - postalCode:
+        type: string
+        description: Postal code of the Address.
+    - countryCode:
+        type: string
+        description: ISO 3166-1 alpha-2 code of the country, e.g. GB. [See all codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_rLu7LcgR9ieGdu/address/addr_nBCLXcRyAier6C \
+           -u public_key:secret_key \
+           -d firstName="Johnny" \
+           -d lastName="Hancock"
+    example_response:
+      json: >
+        {
+            "uid": "addr_nBCLXcRyAier6C",
+            "type": "address",
+            "customerUid": "cust_rLu7LcgR9ieGdu",
+            "company": "Export Business Ltd",
+            "firstName": "Johnny",
+            "lastName": "Hancock",
+            "addressLine1": "Street 123",
+            "addressLine2": null,
+            "city": "Zagreb",
+            "postalCode": "10000",
+            "locality": null,
+            "region": null,
+            "countryCode": "HR",
+            "customData": {},
+            "created": 1423747829
+        }
+
+  single:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/address/{ADDRESS_UID}
+    method: GET
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+      - ADDRESS_UID:
+          description: UID of the address to retrieve
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_yeUGxTyMyc5KEU/address/addr_nBCLXcRyAier6C \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "uid": "addr_nBCLXcRyAier6C",
+            "type": "address",
+            "customerUid": "cust_rLu7LcgR9ieGdu",
+            "company": "Export Business Ltd",
+            "firstName": "Johnny",
+            "lastName": "Hancock",
+            "addressLine1": "Street 123",
+            "addressLine2": null,
+            "city": "Zagreb",
+            "postalCode": "10000",
+            "locality": null,
+            "region": null,
+            "countryCode": "HR",
+            "customData": {},
+            "created": 1423747829
+        }
+
+  delete:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/address/{ADDRESS_UID}
+    method: DELETE
+    path_parameters:
+      - CUSTOMER_UID:
+          description: UID of the customer
+          required: true
+      - ADDRESS_UID:
+          description: UID of the address to delete
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/cust_yeUGxTyMyc5KEU/address/addr_nBCLXcRyAier6C \
+            -u public_key:secret_key \
+            -X DELETE
+    example_response:
+      json: >
+        {
+            "deletedUid": "addr_nBCLXcRyAier6C",
+            "deleted": true
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/addresses
+    method: GET
+    query_parameters:
+      - limit:
+          description: Maximum number of items returned
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/customer/{CUSTOMER_UID}/addresses \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "type": "list",
+            "totalCount": 3,
+            "hasPrevious": false,
+            "hasNext": false,
+            "items": [{
+                "uid": "addr_nBCLXcRyAier6C",
+                "type": "address",
+                "customerUid": "cust_rLu7LcgR9ieGdu",
+                "company": "Export Business Ltd",
+                "firstName": "Johnny",
+                "lastName": "Hancock",
+                "addressLine1": "Street 123",
+                "addressLine2": null,
+                "city": "Zagreb",
+                "postalCode": "10000",
+                "locality": null,
+                "region": null,
+                "countryCode": "HR",
+                "customData": {},
+                "created": 1423747829
+            }, { ... }]
+        }

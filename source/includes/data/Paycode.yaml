@@ -1,0 +1,233 @@
+object:
+  example: >
+    {
+        "uid": "payc_reH7BiBBiXgBHe",
+        "type": "paycode",
+        "code": "16PBU",
+        "url": "https://pencepay.com/paycode/16PBU",
+        "amount": 1500,
+        "currencyCode": "EUR",
+        "orderId": "ORD00163",
+        "description": "Vacation for two in Croatia, June 2015",
+        "reserveFundsOnly": false,
+        "saveInSafe": false,
+        "validUntil": null,
+        "created": 1423940018
+    }
+  attributes:
+    - uid:
+        type: string
+        description: Unique ID of the `Paycode` in our system.
+    - type:
+        type: string
+        description: Constant `address`.
+    - created:
+        type: timestamp
+        description: Object creation timestamp.
+    - code:
+        type: string
+        description: Simple, uppercase reference code for this Paycode, usable by humans, e.g. AD1FE.
+    - url:
+        type: string
+        description: An URL to which customer has to be redirected to pay.
+    - amount:
+        type: decimal
+        description: Amount customer needs to pay.
+    - currencyCode:
+        type: string
+        description: A three-letter [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code, e.g. EUR.
+    - orderId:
+        type: string
+        description: ID of the order in your system. This property is very useful as it is shown on the Hosted Payment Page and in the Administration tool and various reports, making it easy for you to reconcile a particula payment with your orders.
+    - description:
+        type: string
+        description: A short note (not longer than 150 characters) to the customer during the payment process, describing the purpose of the payment. No HTML tags are allowed.
+    - reserveFundsOnly:
+        type: boolean
+        description: Describes if this payment, if paid with a credit card, should be charged to the customer immediately, or just reserved on the card for a later capture).
+    - saveInSafe:
+        type: boolean
+        description: Describes if the Customer, Address and Card objects should be created on the gateway on a successful payment.
+    - validUntil:
+        type: integer
+        description: Timestamp which tells when this Paycode will expire. Expires Paycodes cannot be used anymore and will show an expired error message when accessed.
+
+  create:
+    endpoint: https://api.pencepay.com/v1/paycode
+    method: POST
+    parameters:
+      - amount:
+          type: decimal
+          description: Amount customer needs to pay.
+      - currencyCode:
+          type: string
+          description: A three-letter [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code, e.g. EUR.
+      - orderId:
+          type: string
+          description: ID of the order in your system. This property is very useful as it is shown on the Hosted Payment Page and in the Administration tool and various reports, making it easy for you to reconcile a particula payment with your orders.
+      - description:
+          type: string
+          description: A short note (not longer than 150 characters) to the customer during the payment process, describing the purpose of the payment. No HTML tags are allowed.
+      - reserveFundsOnly:
+          type: boolean
+          description: Describes if this payment, if paid with a credit card, should be charged to the customer immediately, or just reserved on the card for a later capture).
+      - saveInSafe:
+          type: boolean
+          description: Describes if the Customer, Address and Card objects should be created on the gateway on a successful payment.
+      - validUntil:
+          type: integer
+          description: Timestamp which tells when this Paycode will expire. Expires Paycodes cannot be used anymore and will show an expired error message when accessed.
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/paycode \
+            -u public_key:secret_key \
+            -d amount="1500" \
+            -d currencyCode="EUR" \
+            -d orderId="ORD00163" \
+            -d description="Vacation for two in Croatia, June 2017"
+    example_response:
+      json: >
+        {
+            "uid": "payc_reH7BiBBiXgBHe",
+            "type": "paycode",
+            "code": "16PBU",
+            "url": "https://pencepay.com/paycode/16PBU",
+            "amount": 1500,
+            "currencyCode": "EUR",
+            "orderId": "ORD00163",
+            "description": "Vacation for two in Croatia, June 2017",
+            "reserveFundsOnly": false,
+            "saveInSafe": false,
+            "validUntil": null,
+            "created": 1423940018
+        }
+
+  update:
+    endpoint: https://api.pencepay.com/v1/paycode/{PAYCODE_UID}
+    method: POST
+    path_parameters:
+      - PAYCODE_UID:
+          description: UID of the paycode to update
+          required: true
+    parameters:
+      - amount:
+          type: decimal
+          description: Amount customer needs to pay.
+      - currencyCode:
+          type: string
+          description: A three-letter [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code, e.g. EUR.
+      - orderId:
+          type: string
+          description: ID of the order in your system. This property is very useful as it is shown on the Hosted Payment Page and in the Administration tool and various reports, making it easy for you to reconcile a particula payment with your orders.
+      - description:
+          type: string
+          description: A short note (not longer than 150 characters) to the customer during the payment process, describing the purpose of the payment. No HTML tags are allowed.
+      - reserveFundsOnly:
+          type: boolean
+          description: Describes if this payment, if paid with a credit card, should be charged to the customer immediately, or just reserved on the card for a later capture).
+      - saveInSafe:
+          type: boolean
+          description: Describes if the Customer, Address and Card objects should be created on the gateway on a successful payment.
+      - validUntil:
+          type: integer
+          description: Timestamp which tells when this Paycode will expire. Expires Paycodes cannot be used anymore and will show an expired error message when accessed.
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/paycode/payc_reH7BiBBiXgBHe \
+            -u public_key:secret_key \
+            -d description="Vacation for two in Croatia, June 5th 2017"
+    example_response:
+      json: >
+        {
+            "uid": "payc_reH7BiBBiXgBHe",
+            "type": "paycode",
+            "code": "16PBU",
+            "url": "https://pencepay.com/paycode/16PBU",
+            "amount": 1500,
+            "currencyCode": "EUR",
+            "orderId": "ORD00163",
+            "description": "Vacation for two in Croatia, June 5th 2017",
+            "reserveFundsOnly": false,
+            "saveInSafe": false,
+            "validUntil": null,
+            "created": 1423940018
+        }
+
+  single:
+    endpoint: https://api.pencepay.com/v1/paycode/{PAYCODE_UID}
+    method: GET
+    path_parameters:
+      - PAYCODE_UID:
+          description: UID of the paycode to retrieve
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/paycode/payc_reH7BiBBiXgBHe \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "uid": "payc_reH7BiBBiXgBHe",
+            "type": "paycode",
+            "code": "16PBU",
+            "url": "https://pencepay.com/paycode/16PBU",
+            "amount": 1500,
+            "currencyCode": "EUR",
+            "orderId": "ORD00163",
+            "description": "Vacation for two in Croatia, June 5th 2017",
+            "reserveFundsOnly": false,
+            "saveInSafe": false,
+            "validUntil": null,
+            "created": 1423940018
+        }
+
+  delete:
+    endpoint: https://api.pencepay.com/v1/paycode/{PAYCODE_UID}
+    method: DELETE
+    path_parameters:
+      - PAYCODE_UID:
+          description: UID of the paycode to delete
+          required: true
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/paycode/payc_reH7BiBBiXgBHe \
+            -u public_key:secret_key \
+            -X DELETE
+    example_response:
+      json: >
+        {
+            "deletedUid": "payc_reH7BiBBiXgBHe",
+            "deleted": true
+        }
+
+  search:
+    endpoint: https://api.pencepay.com/v1/paycodes
+    method: GET
+    example_request:
+      shell: >
+        $ curl https://api.pencepay.com/v1/paycodes \
+            -u public_key:secret_key
+    example_response:
+      json: >
+        {
+            "type": "list",
+            "totalCount": 5,
+            "hasPrevious": false,
+            "hasNext": false,
+            "items": [{
+                "uid": "payc_reH7BiBBiXgBHe",
+                "type": "paycode",
+                "code": "16PBU",
+                "url": null,
+                "amount": 1500.00,
+                "currencyCode": "EUR",
+                "orderId": "ORD00163",
+                "description": "Vacation for two in Croatia, June 2017",
+                "reserveFundsOnly": false,
+                "saveInSafe": false,
+                "validUntil": null,
+                "created": 1423940018
+            }, {...}]
+        }
+
+
