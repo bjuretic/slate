@@ -1,8 +1,4 @@
 @charset "utf-8";
-@import 'normalize';
-@import 'variables';
-@import 'icon-font';
-// @import 'rtl'; // uncomment to switch to RTL format
 
 /*
 Copyright 2008-2013 Concur Technologies, Inc.
@@ -652,7 +648,7 @@ h3.parameters {
     }
     span.required {
       font-weight: lighter;
-      color: #ff8700;
+      color: #0099e5;
       // font-size: 0.8em;
     }
   }
